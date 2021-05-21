@@ -36,8 +36,14 @@ class NodeManager(object):
             idx: CloudyGCounter(idx, self.pubsub) for idx in range(capacity)}
 
     def increment(self):
+        # Are we running at capacity? If not, spawn more nodes.
+        for i in range(self.capacity - len(self.nodes)):
+            self.spawn_node()
+
+        # Now pick some node to increment at
         node = random.choice(list(self.nodes.values()))
         try:
+            logger.info("\n\nAttempting increment at Node %d" % node.idx)
             node.increment()
         except CloudyException:
             logger.error("Node %d crashed while incrementing." % node.idx)
@@ -45,24 +51,30 @@ class NodeManager(object):
             logger.info("Retrying...")
             self.increment()
             return
+
+        logger.info("\n\nRunning value check for all nodes.")
         for idx, n in self.nodes.items():
             try:
                 print("Node %d says %d" % (n.idx, n.value()))
             except CloudyException:
-                logger.error("Node %d crashed while checking value." % node.idx)
-                self.replace_node(node.idx)
+                logger.error("Node %d crashed while checking value." % n.idx)
+                self.replace_node(n.idx)
+
+    def spawn_node(self):
+        # Pick an id larger than that of any previously existing node.
+        new_idx = max(self.nodes.keys()) + 1
+        # Set up a new node.
+        self.nodes[new_idx] = CloudyGCounter(new_idx, self.pubsub)
+        logger.info("Spawned node %d." % new_idx)
 
     def replace_node(self, idx):
         '''Spin up a new node (with a new id) to replace node <idx>.'''
         if idx not in self.nodes:
             return
-        # Pick an id larger than that of any previously existing node.
-        new_idx = max(self.nodes.keys()) + 1
+        self.spawn_node()
         # Drop crashed node.
         del self.nodes[idx]
-        # Set up a new node.
-        self.nodes[new_idx] = CloudyGCounter(new_idx, self.pubsub)
-        logger.info("Spawned node %d to replace node %d." % (new_idx, idx))
+        logger.info("Dropped node %d." % idx)
 
 
 def crashy_demo():
@@ -74,8 +86,8 @@ def crashy_demo():
 
 
 if __name__ == '__main__':
-    print("DEMO WITH LATENCY")
-    latency_demo()
+    #print("DEMO WITH LATENCY")
+    #latency_demo()
 
     print("DEMO WITH CRASHING")
     crashy_demo()
