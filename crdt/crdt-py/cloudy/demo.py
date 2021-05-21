@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Demo script
+# Demo script.
+# NodeManager respawns dead nodes and keeps the number of live nodes at
+# a specified capacity.
 
 import logging
 import random
