@@ -1,3 +1,5 @@
+// Minimum viable grow-only counter
+
 package main
 
 import "fmt"
