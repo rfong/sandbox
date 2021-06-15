@@ -14831,7 +14831,7 @@ Yao (NA) [49] Samo (NA) [18]
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Linguistic-observation">Linguistic observation<a class="anchor-link" href="#Linguistic-observation">&#182;</a></h2><p>It's clear that the simple aggregates and set operations above don't tell us much of the story if used to evaluate linguistic similarity. They don't line up well with human intuitions for linguistic similarity, even phonetically (putting aside grammar and <a href="https://en.wikipedia.org/wiki/Phonotactics">phonotactics</a>).</p>
+<h2 id="Observation:-phonemes-do-not-tell-us-much-about-similarity-without-frequency/usage-weighting">Observation: phonemes do not tell us much about similarity without frequency/usage weighting<a class="anchor-link" href="#Observation:-phonemes-do-not-tell-us-much-about-similarity-without-frequency/usage-weighting">&#182;</a></h2><p>It's clear that the simple aggregates and set operations above don't tell us much of the story if used to evaluate linguistic similarity. They don't line up well with human intuitions for linguistic similarity, even phonetically (putting aside grammar and <a href="https://en.wikipedia.org/wiki/Phonotactics">phonotactics</a>).</p>
 <p><a href="https://artoflanguageinvention.com/">David J. Peterson</a> claims that if a language contains a phoneme which is rare amongst languages, it will frequently maximize listener comprehension by using that phoneme quite a lot, making that phoneme (or class of phonemes) characteristic of the language. Examples include:</p>
 <ul>
 <li>American English's <a href="https://en.wikipedia.org/wiki/Rhoticity_in_English">rhotic r</a> (<code>[r]</code>, "<strong>r</strong>ed")</li>
@@ -14839,6 +14839,23 @@ Yao (NA) [49] Samo (NA) [18]
 <li><a href="https://omniglot.com/writing/taa.htm">ǃXóõ</a>'s heavy use of click consonants</li>
 </ul>
 <p>So, given a dataset of phonemes weighted by frequency of use or phonotactic "importance" in the language, we might be able to better calculate an intuition-aligned dis/similarity index.</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Stats-overview">Stats overview<a class="anchor-link" href="#Stats-overview">&#182;</a></h2><p><em>Largest and smallest phonemic inventories</em>
+!Xóõ (NA) [161] and Pirahã [11] (I didn't check for ties)</p>
+<p><em>Largest volume of overlapping phonemes</em>
+Kanga (Kanga) [76] and Kanga (Kufa) [75].
+Intersection = 74 phonemes
+(Note that this metric is <em>not</em> equivalent to "largest percentage of overlap".)</p>
+<p>Found 13975 pairs of langs where one was a strict phonemic subset of the other.
+Max union size: 274 phonemes. From !Xóõ (NA) [161] and Kildin Saami (NA) [128].</p>
+<h3 id="American-English">American English<a class="anchor-link" href="#American-English">&#182;</a></h3><p>Unfortunately, the dataset only contained Western/Midwest and Southeast Michigan variants, and I didn't see Black American vernacular etc.</p>
+<p>Other than the obvious similarities with other English dialects (ranging from similarity index of 0.69-0.87), the most similar were Persian (which contains a uvular stop, something English speakers have a lot of trouble with) and...surprisingly, Kwangari (contains multiple click consonants, which English speakers struggle with even more).</p>
+<p>In other words, set intersections don't tell the whole story. This made me think about characteristic phonemes, the ones that a language emphasizes the most. American English has a bunch of unusual shit like the rhotic R /r/ ("red"), unvoiced th /θ/ ("thing"), voiced th /ð/ ("the").</p>
+<p>This is getting kind of long so I'll dump some more into a blog post later!</p>
 
 </div>
 </div>
