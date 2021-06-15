@@ -2,5 +2,8 @@ Sandbox of some things I'm fiddling with at Recurse Center that haven't grown en
 
 ### Related
 - [my code blog](https://rfong.github.io/rflog/)
-- [creative-coding](https://github.com/rfong/creative-coding) repo
+
+### Broken into separate repos
+- [creative-coding](https://github.com/rfong/creative-coding)
+- [wasm-tinygo-hello](https://github.com/rfong/wasm-tinygo-hello)
 - [computery-resources](https://github.com/rfong/computery-resources)
