@@ -12,11 +12,13 @@ pip3 install -r requirements.txt
 ```
 
 ### Development server
+(`source venv/bin/activate` if you didn't already.)
 ```
 make serve
 ```
 
 ### Render report (non-interactive results) to HTML
+(`source venv/bin/activate` if you didn't already.)
 Build notebook (including cell contents) as HTML.
 ```
 make build

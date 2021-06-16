@@ -14260,12 +14260,13 @@ a.anchor-link {
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="Phoible-explorations-in-language-dis/similarity">Phoible explorations in language dis/similarity<a class="anchor-link" href="#Phoible-explorations-in-language-dis/similarity">&#182;</a></h1><p><a href="https://phoible.github.io/">Phoible</a> is a highly structured dataset of phonemic inventories by language.</p>
+<p><a href="https://rfong.github.io/rflog/2021/06/15/phonemic-similarity/">My blog post summary of this code exploration.</a></p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[124]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span>
@@ -14287,7 +14288,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[209]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Load &amp; process dataset into a dict {&lt;str&gt;: &lt;set&gt;} mapping language IDs to sets of phonemes.</span>
@@ -14319,7 +14320,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[200]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Check the dataset format</span>
@@ -14358,7 +14359,7 @@ CSV field names: [&#39;InventoryID&#39;, &#39;Glottocode&#39;, &#39;ISO6393&#39;
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[201]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Quick visualization overview</span>
@@ -14382,7 +14383,7 @@ CSV field names: [&#39;InventoryID&#39;, &#39;Glottocode&#39;, &#39;ISO6393&#39;
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[201]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 
 
 
@@ -14421,7 +14422,7 @@ CSV field names: [&#39;InventoryID&#39;, &#39;Glottocode&#39;, &#39;ISO6393&#39;
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[241]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_lang_name</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">use_dialect_name</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -14437,6 +14438,16 @@ CSV field names: [&#39;InventoryID&#39;, &#39;Glottocode&#39;, &#39;ISO6393&#39;
         <span class="n">get_lang_name</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">use_dialect_name</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
         <span class="nb">len</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span>
     <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">are_related_dialects</span><span class="p">(</span><span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return true if these IDs denote subdialects of the same lang.</span>
+<span class="sd">    This is not bulletproof due to some formatting inconsistencies</span>
+<span class="sd">    in the dataset.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">la1</span> <span class="o">=</span> <span class="n">langs</span><span class="p">[</span><span class="n">idx1</span><span class="p">][</span><span class="s1">&#39;LanguageName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">la2</span> <span class="o">=</span> <span class="n">langs</span><span class="p">[</span><span class="n">idx2</span><span class="p">][</span><span class="s1">&#39;LanguageName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">la1</span> <span class="o">==</span> <span class="n">la2</span>
 </pre></div>
 
      </div>
@@ -14543,18 +14554,22 @@ Pirahã [11]
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[214]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Question: What pair of langs has the maximum phoneme intersection?</span>
-<span class="c1"># (What pair of languages has the largest volume of overlap?)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Question: What pair of langs (not related to each other as </span>
+<span class="c1"># dialects) have the maximum phoneme intersection? In other </span>
+<span class="c1"># words, what pair of languages has the largest volume of overlap?</span>
 <span class="c1"># (Note that this is a different question from &quot;what langs overlap</span>
 <span class="c1">#  by the largest *percentage* of their inventories?&quot;)</span>
 
 <span class="c1"># It&#39;s ok to lazily take all pairwise combos, ~9M</span>
 <span class="n">max_intersect_pair</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
     <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">lang_phonemes</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="mi">2</span><span class="p">),</span>
-    <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ps</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">ps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">ps</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ps</span><span class="p">:</span> <span class="p">(</span>
+        <span class="mi">0</span> <span class="k">if</span> <span class="n">are_related_dialects</span><span class="p">(</span><span class="n">ps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">ps</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">ps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">ps</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
 
@@ -14566,7 +14581,7 @@ Pirahã [11]
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[230]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">ps1</span><span class="p">,</span> <span class="n">ps2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_intersect_pair</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">max_intersect_pair</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
@@ -14591,7 +14606,7 @@ Pirahã [11]
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Max intersected pair: Kanga (Kanga) [76] and Kanga (Kufa) [75]. Intersection = 74 phonemes
+<pre>Max intersected pair: Kanga (Kanga) [76] and Kadugli (Miri) [63]. Intersection = 62 phonemes
 </pre>
 </div>
 </div>
@@ -14603,10 +14618,10 @@ Pirahã [11]
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[232]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Questions: What pair(s) of langs have maximal similarity?</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Questions: What pair(s) of langs have maximal overlapping percentage?</span>
 <span class="c1"># Are any complete subsets of another lang?</span>
 
 <span class="c1"># Takes a nested tuple ((idx1, phonemes1), (idx2, phonemes2))</span>
@@ -14630,14 +14645,15 @@ Pirahã [11]
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[233]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">max_sim_ind</span> <span class="o">=</span> <span class="n">get_similarity_index</span><span class="p">(</span><span class="n">most_sim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">num_max_sim_pairs</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
-    <span class="mi">1</span> <span class="k">for</span> <span class="n">ps</span> <span class="ow">in</span> <span class="n">most_sim</span>
-    <span class="k">if</span> <span class="n">get_similarity_index</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span> <span class="o">==</span> <span class="n">max_sim_ind</span>
-<span class="p">)</span>
+<span class="n">num_max_sim_pairs</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">ps</span> <span class="ow">in</span> <span class="n">most_sim</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">get_similarity_index</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">max_sim_ind</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="n">num_max_sim_pairs</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
 
      </div>
@@ -14648,7 +14664,7 @@ Pirahã [11]
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[234]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> pairs found with </span><span class="si">%.2f</span><span class="s2"> similarity&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num_max_sim_pairs</span><span class="p">,</span> <span class="n">max_sim_ind</span><span class="p">))</span>
@@ -14684,15 +14700,15 @@ Pirahã [11]
 <pre>13975 pairs found with 1.00 similarity
 	Sampling a few of them:
 Kota (NA) [34] KOTA (NA) [28]
-	overlap: {&#39;pʰ&#39;, &#39;j&#39;, &#39;ɭ&#39;, &#39;i&#39;, &#39;kʰ&#39;, &#39;v&#39;, &#39;n&#39;, &#39;d&#39;, &#39;b&#39;, &#39;d̠ʒ&#39;, &#39;ʂ&#39;, &#39;e̞&#39;, &#39;t̠ʃʰ&#39;, &#39;ɳ&#39;, &#39;u&#39;, &#39;t̪ʰ&#39;, &#39;ɡ&#39;, &#39;ʈʰ&#39;, &#39;a&#39;, &#39;l&#39;, &#39;m&#39;, &#39;ŋ&#39;, &#39;o̞&#39;, &#39;tʰ&#39;, &#39;ɽ&#39;, &#39;d̪&#39;, &#39;r&#39;, &#39;ɖ&#39;}
+	overlap: {&#39;i&#39;, &#39;kʰ&#39;, &#39;r&#39;, &#39;pʰ&#39;, &#39;e̞&#39;, &#39;t̪ʰ&#39;, &#39;u&#39;, &#39;a&#39;, &#39;n&#39;, &#39;l&#39;, &#39;d̪&#39;, &#39;b&#39;, &#39;ɖ&#39;, &#39;m&#39;, &#39;ʈʰ&#39;, &#39;ɳ&#39;, &#39;ʂ&#39;, &#39;d&#39;, &#39;ɭ&#39;, &#39;tʰ&#39;, &#39;ɽ&#39;, &#39;ŋ&#39;, &#39;ɡ&#39;, &#39;j&#39;, &#39;o̞&#39;, &#39;t̠ʃʰ&#39;, &#39;v&#39;, &#39;d̠ʒ&#39;}
 Sedang (NA) [53] Ainu (NA) [17]
-	overlap: {&#39;m&#39;, &#39;w&#39;, &#39;j&#39;, &#39;t̠ʃ&#39;, &#39;p&#39;, &#39;s&#39;, &#39;a&#39;, &#39;ɛ&#39;, &#39;i&#39;, &#39;h&#39;, &#39;k&#39;, &#39;t&#39;, &#39;ʔ&#39;, &#39;u&#39;, &#39;n&#39;, &#39;ɔ&#39;, &#39;r&#39;}
+	overlap: {&#39;ɔ&#39;, &#39;h&#39;, &#39;n&#39;, &#39;p&#39;, &#39;i&#39;, &#39;r&#39;, &#39;s&#39;, &#39;j&#39;, &#39;a&#39;, &#39;ʔ&#39;, &#39;u&#39;, &#39;w&#39;, &#39;ɛ&#39;, &#39;k&#39;, &#39;t&#39;, &#39;m&#39;, &#39;t̠ʃ&#39;}
 Sedang (NA) [53] Southern Nuautl (NA) [17]
-	overlap: {&#39;m&#39;, &#39;w&#39;, &#39;j&#39;, &#39;a&#39;, &#39;p&#39;, &#39;s&#39;, &#39;l&#39;, &#39;i&#39;, &#39;h&#39;, &#39;k&#39;, &#39;t&#39;, &#39;ʔ&#39;, &#39;u&#39;, &#39;n&#39;, &#39;o&#39;, &#39;r&#39;, &#39;e&#39;}
+	overlap: {&#39;h&#39;, &#39;n&#39;, &#39;i&#39;, &#39;l&#39;, &#39;p&#39;, &#39;r&#39;, &#39;s&#39;, &#39;j&#39;, &#39;e&#39;, &#39;ʔ&#39;, &#39;u&#39;, &#39;w&#39;, &#39;a&#39;, &#39;k&#39;, &#39;t&#39;, &#39;o&#39;, &#39;m&#39;}
 Yao (NA) [49] Orokaiva (NA) [17]
-	overlap: {&#39;m&#39;, &#39;b&#39;, &#39;a&#39;, &#39;p&#39;, &#39;s&#39;, &#39;ŋ&#39;, &#39;i&#39;, &#39;h&#39;, &#39;k&#39;, &#39;t&#39;, &#39;dz&#39;, &#39;u&#39;, &#39;ɡ&#39;, &#39;n&#39;, &#39;d&#39;, &#39;o&#39;, &#39;e&#39;}
+	overlap: {&#39;h&#39;, &#39;dz&#39;, &#39;i&#39;, &#39;p&#39;, &#39;n&#39;, &#39;ŋ&#39;, &#39;ɡ&#39;, &#39;s&#39;, &#39;d&#39;, &#39;e&#39;, &#39;u&#39;, &#39;b&#39;, &#39;a&#39;, &#39;o&#39;, &#39;k&#39;, &#39;t&#39;, &#39;m&#39;}
 Yao (NA) [49] Samo (NA) [18]
-	overlap: {&#39;m&#39;, &#39;b&#39;, &#39;w&#39;, &#39;j&#39;, &#39;a&#39;, &#39;f&#39;, &#39;s&#39;, &#39;l&#39;, &#39;i&#39;, &#39;h&#39;, &#39;k&#39;, &#39;t&#39;, &#39;e&#39;, &#39;u&#39;, &#39;d&#39;, &#39;ɔ&#39;, &#39;o&#39;, &#39;ɡ&#39;}
+	overlap: {&#39;ɔ&#39;, &#39;h&#39;, &#39;f&#39;, &#39;l&#39;, &#39;i&#39;, &#39;ɡ&#39;, &#39;s&#39;, &#39;d&#39;, &#39;j&#39;, &#39;e&#39;, &#39;u&#39;, &#39;b&#39;, &#39;w&#39;, &#39;a&#39;, &#39;k&#39;, &#39;t&#39;, &#39;o&#39;, &#39;m&#39;}
 </pre>
 </div>
 </div>
@@ -14704,7 +14720,130 @@ Yao (NA) [49] Samo (NA) [18]
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[337]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[44]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Question: What langs have the fewest phonemes in common?</span>
+<span class="n">num_min_sim_pairs</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">ps</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">most_sim</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">get_similarity_index</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="n">num_min_sim_pairs</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> pairs found with 0.0 similarity&quot;</span> <span class="o">%</span> <span class="n">num_min_sim_pairs</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ps</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">most_sim</span><span class="p">[</span><span class="o">-</span><span class="n">num_min_sim_pairs</span><span class="p">:]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">prettyf_lang</span><span class="p">(</span><span class="o">*</span><span class="n">ps</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">ps</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">prettyf_lang</span><span class="p">(</span><span class="o">*</span><span class="n">ps</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>19 pairs found with 0.0 similarity
+2372 Northern Altai (Northern Altai (Kumandy)) [34] 2607 Najdi Arabic (NA) [33]
+2143 Pisamira [17] 2453 Miyako (Miyako (Ogami)) [19]
+1993 Yuhup [35] 2453 Miyako (Miyako (Ogami)) [19]
+1991 Hup [34] 2453 Miyako (Miyako (Ogami)) [19]
+1238 Crow (NA) [23] 2453 Miyako (Miyako (Ogami)) [19]
+1020 Hup (NA) [29] 2453 Miyako (Miyako (Ogami)) [19]
+870 Usarufa (NA) [22] 2521 Irish (Irish (Corca Dhuibhne)) [52]
+619 WARIS (NA) [22] 2453 Miyako (Miyako (Ogami)) [19]
+611 WICHITA (NA) [29] 2434 Eastern Khanty (Eastern Khanty (Vakh)) [30]
+556 SIRIONO (NA) [28] 2453 Miyako (Miyako (Ogami)) [19]
+528 ROTOKAS (NA) [11] 2610 Kabardian (Kabardian (Turkish)) [51]
+477 PIRAHA (NA) [11] 2453 Miyako (Miyako (Ogami)) [19]
+453 MAXAKALI (NA) [20] 2552 Abkhaz (Abkhaz (Bzyb)) [70]
+453 MAXAKALI (NA) [20] 2468 Abkhaz (Abkhaz (Abzhywa)) [62]
+402 KAINGANG (NA) [27] 2453 Miyako (Miyako (Ogami)) [19]
+391 KABARDIAN (NA) [56] 528 ROTOKAS (NA) [11]
+278 CHIPEWYAN (NA) [52] 2453 Miyako (Miyako (Ogami)) [19]
+226 APINAYE [30] 2453 Miyako (Miyako (Ogami)) [19]
+4 Kabardian (NA) [56] 528 ROTOKAS (NA) [11]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[60]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Followup question: Is Ogami Miyakoan phonetically lonely?</span>
+<span class="n">miyako</span> <span class="o">=</span> <span class="s2">&quot;2453&quot;</span>
+<span class="n">miyako_sim</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+    <span class="nb">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">ps</span><span class="p">:</span> <span class="p">(</span><span class="n">ps</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">get_similarity_index</span><span class="p">((</span><span class="n">ps</span><span class="p">,(</span><span class="n">miyako</span><span class="p">,</span><span class="n">lang_phonemes</span><span class="p">[</span><span class="n">miyako</span><span class="p">])))),</span>
+        <span class="n">lang_phonemes</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+    <span class="p">),</span>
+    <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">sim</span> <span class="ow">in</span> <span class="n">miyako_sim</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">11</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> sim=</span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">prettyf_lang</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">lang_phonemes</span><span class="p">[</span><span class="n">idx</span><span class="p">]),</span> <span class="n">sim</span><span class="p">))</span>
+<span class="c1"># Answer: Probably not.</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Hakka Chinese (Kejia (Hakka Chinese, Meijiang, Meixian Hakka)) [47] sim=0.63
+Eastern Hill Balochi (NA) [54] sim=0.58
+Igbo (NA) [65] sim=0.53
+Luo (NA) [35] sim=0.53
+Yao (NA) [49] sim=0.47
+Thai (NA) [45] sim=0.47
+Swahili (NA) [36] sim=0.47
+Zulu (NA) [43] sim=0.47
+Norwegian (NA) [48] sim=0.47
+English (NA) [40] sim=0.47
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="American-English">American English<a class="anchor-link" href="#American-English">&#182;</a></h2>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Question: What langs are a strict phonemic subset of American English?</span>
@@ -14725,7 +14864,7 @@ Yao (NA) [49] Samo (NA) [18]
         <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;similarity&quot;</span><span class="p">],</span>
         <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">get_lang_name</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">use_dialect_name</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="s2">&quot;- most similar:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">prettyf_lang</span><span class="p">(</span><span class="o">*</span><span class="n">am_ps</span><span class="p">),</span> <span class="s2">&quot;- most similar:&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">most_sim</span><span class="p">[:</span><span class="mi">10</span><span class="p">]:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> - similarity </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
             <span class="n">d</span><span class="p">[</span><span class="s2">&quot;idx&quot;</span><span class="p">],</span>
@@ -14753,7 +14892,7 @@ Yao (NA) [49] Samo (NA) [18]
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>[&#39;2175&#39;, &#39;2176&#39;]
 0.8717948717948718
-2175 English (American) (Western and Mid-Western US; Southern California) - most similar:
+2175 English (American) (Western and Mid-Western US; Southern California) [39] - most similar:
 	2175 English (American) (Western and Mid-Western US; Southern California) - similarity 1.00
 	2176 American English (Southeastern Michigan) - similarity 0.87
 	2252 English (English (RP)) - similarity 0.85
@@ -14764,7 +14903,7 @@ Yao (NA) [49] Samo (NA) [18]
 	172 Persian (NA) - similarity 0.70
 	2177 English (Australian) (NA) - similarity 0.69
 	2338 Burmese (Burmese (Rangoon)) - similarity 0.69
-2176 American English (Southeastern Michigan) - most similar:
+2176 American English (Southeastern Michigan) [39] - most similar:
 	2176 American English (Southeastern Michigan) - similarity 1.00
 	2175 English (American) (Western and Mid-Western US; Southern California) - similarity 0.87
 	2252 English (English (RP)) - similarity 0.79
@@ -14786,7 +14925,7 @@ Yao (NA) [49] Samo (NA) [18]
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[336]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># American English x Persian overlap</span>
@@ -14794,9 +14933,10 @@ Yao (NA) [49] Samo (NA) [18]
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">persian</span><span class="p">),</span> <span class="n">persian</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lang_phonemes</span><span class="p">[</span><span class="s2">&quot;2175&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">persian</span><span class="p">)))</span>
 
-<span class="n">kwangari</span> <span class="o">=</span> <span class="n">lang_phonemes</span><span class="p">[</span><span class="s2">&quot;1272&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kwangari</span><span class="p">),</span> <span class="n">kwangari</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lang_phonemes</span><span class="p">[</span><span class="s2">&quot;2175&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">kwangari</span><span class="p">)))</span>
+<span class="c1"># American English x Kwangali overlap</span>
+<span class="n">kwangali</span> <span class="o">=</span> <span class="n">lang_phonemes</span><span class="p">[</span><span class="s2">&quot;1272&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kwangali</span><span class="p">),</span> <span class="n">kwangali</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lang_phonemes</span><span class="p">[</span><span class="s2">&quot;2175&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">kwangali</span><span class="p">)))</span>
 </pre></div>
 
      </div>
@@ -14816,9 +14956,9 @@ Yao (NA) [49] Samo (NA) [18]
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>30 {&#39;w&#39;, &#39;pʰ&#39;, &#39;j&#39;, &#39;t̠ʃ&#39;, &#39;ʒ&#39;, &#39;ɢ&#39;, &#39;i&#39;, &#39;kʰ&#39;, &#39;v&#39;, &#39;n&#39;, &#39;d&#39;, &#39;b&#39;, &#39;d̠ʒ&#39;, &#39;z&#39;, &#39;ʃ&#39;, &#39;ɑ&#39;, &#39;ʔ&#39;, &#39;u&#39;, &#39;ɡ&#39;, &#39;f&#39;, &#39;s&#39;, &#39;h&#39;, &#39;a̟&#39;, &#39;l&#39;, &#39;m&#39;, &#39;e&#39;, &#39;χ&#39;, &#39;tʰ&#39;, &#39;o&#39;, &#39;r&#39;}
+<pre>30 {&#39;i&#39;, &#39;kʰ&#39;, &#39;pʰ&#39;, &#39;r&#39;, &#39;s&#39;, &#39;χ&#39;, &#39;u&#39;, &#39;ʃ&#39;, &#39;n&#39;, &#39;l&#39;, &#39;ʒ&#39;, &#39;e&#39;, &#39;b&#39;, &#39;w&#39;, &#39;m&#39;, &#39;h&#39;, &#39;f&#39;, &#39;ɢ&#39;, &#39;d&#39;, &#39;ɑ&#39;, &#39;ʔ&#39;, &#39;a̟&#39;, &#39;tʰ&#39;, &#39;t̠ʃ&#39;, &#39;z&#39;, &#39;ɡ&#39;, &#39;j&#39;, &#39;o&#39;, &#39;v&#39;, &#39;d̠ʒ&#39;}
 21
-27 {&#39;w&#39;, &#39;j&#39;, &#39;t̠ʃ&#39;, &#39;p&#39;, &#39;ɲ&#39;, &#39;t&#39;, &#39;v&#39;, &#39;n&#39;, &#39;d&#39;, &#39;b&#39;, &#39;d̠ʒ&#39;, &#39;ʃ&#39;, &#39;ɡ&#39;, &#39;a&#39;, &#39;f&#39;, &#39;s&#39;, &#39;ɛ&#39;, &#39;h&#39;, &#39;l&#39;, &#39;m&#39;, &#39;ɪ&#39;, &#39;ʊ&#39;, &#39;β&#39;, &#39;ŋ&#39;, &#39;k&#39;, &#39;ɔ&#39;, &#39;r&#39;}
+27 {&#39;r&#39;, &#39;s&#39;, &#39;a&#39;, &#39;ʃ&#39;, &#39;ɔ&#39;, &#39;n&#39;, &#39;l&#39;, &#39;b&#39;, &#39;w&#39;, &#39;ɛ&#39;, &#39;t&#39;, &#39;ɪ&#39;, &#39;ɲ&#39;, &#39;m&#39;, &#39;h&#39;, &#39;f&#39;, &#39;d&#39;, &#39;ʊ&#39;, &#39;t̠ʃ&#39;, &#39;p&#39;, &#39;ŋ&#39;, &#39;ɡ&#39;, &#39;j&#39;, &#39;k&#39;, &#39;v&#39;, &#39;d̠ʒ&#39;, &#39;β&#39;}
 19
 </pre>
 </div>
@@ -14828,44 +14968,47 @@ Yao (NA) [49] Samo (NA) [18]
 
 </div>
 
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># I often tell people that Japanese&#39;s phonemic inventory </span>
+<span class="c1"># is very close to American English&#39;s because I had a </span>
+<span class="c1"># really easy time pronouncing it. Is this actually true, though?</span>
+<span class="n">jpn</span> <span class="o">=</span> <span class="n">lang_phonemes</span><span class="p">[</span><span class="s2">&quot;197&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">jpn</span><span class="p">),</span> <span class="n">jpn</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lang_phonemes</span><span class="p">[</span><span class="s2">&quot;2175&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">jpn</span><span class="p">)))</span>
+</pre></div>
+
+     </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Observation:-phonemes-do-not-tell-us-much-about-similarity-without-frequency/usage-weighting">Observation: phonemes do not tell us much about similarity without frequency/usage weighting<a class="anchor-link" href="#Observation:-phonemes-do-not-tell-us-much-about-similarity-without-frequency/usage-weighting">&#182;</a></h2><p>It's clear that the simple aggregates and set operations above don't tell us much of the story if used to evaluate linguistic similarity. They don't line up well with human intuitions for linguistic similarity, even phonetically (putting aside grammar and <a href="https://en.wikipedia.org/wiki/Phonotactics">phonotactics</a>).</p>
-<p><a href="https://artoflanguageinvention.com/">David J. Peterson</a> claims that if a language contains a phoneme which is rare amongst languages, it will frequently maximize listener comprehension by using that phoneme quite a lot, making that phoneme (or class of phonemes) characteristic of the language. Examples include:</p>
-<ul>
-<li>American English's <a href="https://en.wikipedia.org/wiki/Rhoticity_in_English">rhotic r</a> (<code>[r]</code>, "<strong>r</strong>ed")</li>
-<li>Hindi's retroflex t (<code>[ʈ]</code>, टापू [ʈaːpuˑ])</li>
-<li><a href="https://omniglot.com/writing/taa.htm">ǃXóõ</a>'s heavy use of click consonants</li>
-</ul>
-<p>So, given a dataset of phonemes weighted by frequency of use or phonotactic "importance" in the language, we might be able to better calculate an intuition-aligned dis/similarity index.</p>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>40 {&#39;ɾ&#39;, &#39;i&#39;, &#39;ʃː&#39;, &#39;s&#39;, &#39;tː&#39;, &#39;ɯː&#39;, &#39;a&#39;, &#39;ʃ&#39;, &#39;ɔ&#39;, &#39;n&#39;, &#39;ɛː&#39;, &#39;˧&#39;, &#39;ɔː&#39;, &#39;aː&#39;, &#39;iː&#39;, &#39;b&#39;, &#39;w&#39;, &#39;ɛ&#39;, &#39;ɯ&#39;, &#39;t&#39;, &#39;çː&#39;, &#39;m&#39;, &#39;tsː&#39;, &#39;h&#39;, &#39;ɯ̃&#39;, &#39;pː&#39;, &#39;d&#39;, &#39;sː&#39;, &#39;ʔ&#39;, &#39;t̠ʃː&#39;, &#39;t̠ʃ&#39;, &#39;kː&#39;, &#39;z&#39;, &#39;p&#39;, &#39;ŋ&#39;, &#39;ɡ&#39;, &#39;j&#39;, &#39;˥&#39;, &#39;k&#39;, &#39;d̠ʒ&#39;}
+15
+</pre>
+</div>
+</div>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Stats-overview">Stats overview<a class="anchor-link" href="#Stats-overview">&#182;</a></h2><p><em>Largest and smallest phonemic inventories</em>
-!Xóõ (NA) [161] and Pirahã [11] (I didn't check for ties)</p>
-<p><em>Largest volume of overlapping phonemes</em>
-Kanga (Kanga) [76] and Kanga (Kufa) [75].
-Intersection = 74 phonemes
-(Note that this metric is <em>not</em> equivalent to "largest percentage of overlap".)</p>
-<p>Found 13975 pairs of langs where one was a strict phonemic subset of the other.
-Max union size: 274 phonemes. From !Xóõ (NA) [161] and Kildin Saami (NA) [128].</p>
-<h3 id="American-English">American English<a class="anchor-link" href="#American-English">&#182;</a></h3><p>Unfortunately, the dataset only contained Western/Midwest and Southeast Michigan variants, and I didn't see Black American vernacular etc.</p>
-<p>Other than the obvious similarities with other English dialects (ranging from similarity index of 0.69-0.87), the most similar were Persian (which contains a uvular stop, something English speakers have a lot of trouble with) and...surprisingly, Kwangari (contains multiple click consonants, which English speakers struggle with even more).</p>
-<p>In other words, set intersections don't tell the whole story. This made me think about characteristic phonemes, the ones that a language emphasizes the most. American English has a bunch of unusual shit like the rhotic R /r/ ("red"), unvoiced th /θ/ ("thing"), voiced th /ð/ ("the").</p>
-<p>This is getting kind of long so I'll dump some more into a blog post later!</p>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="In-closing">In closing<a class="anchor-link" href="#In-closing">&#182;</a></h2><p>I don't feel like I learned much about language similarity here, but I learned a lot about how vast the differences in phonemic inventories can be across languages. This was a fun exploration!</p>
-<p>Although the questions I had weren't a great fit for the data and didn't do it justice, this is a wonderfully structured dataset and I'm excited to use it more in the future.</p>
-<p>In terms of code, <code>pandas</code> might be a better fit for querying next time, though I just used vanilla Python because I'm comfortable with it.</p>
 
-</div>
 </div>
 </body>
 
