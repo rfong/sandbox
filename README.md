@@ -1,4 +1,4 @@
-Sandbox of some things I'm fiddling with at Recurse Center that haven't grown enough for their own repo yet.
+Smol web experiments that don't need their own repo.
 
 ### Related
 - [my code blog](https://rfong.github.io/rflog/)
